@@ -34,7 +34,7 @@ public class App
     	List<Question> res = new ArrayList<Question>();
     	Comparator<Question> comp = new Comparator<Question>(){
     	    public int compare(Question q1, Question q2) {
-    			if(q1.getSimilarity() > q2.getSimilarity()){
+    			if(q1.getSimilarity() < q2.getSimilarity()){
      				return 1;
      			 }
      			 else if(q1.getSimilarity() == q2.getSimilarity()){
