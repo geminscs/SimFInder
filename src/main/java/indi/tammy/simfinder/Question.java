@@ -22,10 +22,17 @@ public class Question {
 	
 	//查询得到的总条目数
 	private int total;
+	private long similarity;
 	
 	
 	
 	
+	public long getSimilarity() {
+		return similarity;
+	}
+	public void setSimilarity(long similarity) {
+		this.similarity = similarity;
+	}
 	public int getWrong_type() {
 		return wrong_type;
 	}
@@ -120,11 +127,17 @@ public class Question {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	public Question(int id, long similarity) {
+		super();
+		this.id = id;
+		this.similarity = similarity;
+	}
 	public Question(int id, String content, String analysis, String answer,
 			int type, boolean isFull, int hardness, long submit_time,
-			String know_name, String type_name, int subject_id,
-			String subject_name, int total, int wrong_type,
-			String wrong_type_name) {
+			int subject_id, String know_name, String type_name,
+			String subject_name, int wrong_type, String wrong_type_name,
+			int total, long similarity) {
 		super();
 		this.id = id;
 		this.content = content;
@@ -134,15 +147,15 @@ public class Question {
 		this.isFull = isFull;
 		this.hardness = hardness;
 		this.submit_time = submit_time;
+		this.subject_id = subject_id;
 		this.know_name = know_name;
 		this.type_name = type_name;
-		this.subject_id = subject_id;
 		this.subject_name = subject_name;
-		this.total = total;
 		this.wrong_type = wrong_type;
 		this.wrong_type_name = wrong_type_name;
+		this.total = total;
+		this.similarity = similarity;
 	}
-		
 	@Override
 	public String toString() {
 		return "Question [id=" + id + ", content=" + content + ", analysis="
@@ -152,6 +165,8 @@ public class Question {
 				+ ", know_name=" + know_name + ", type_name=" + type_name
 				+ ", subject_name=" + subject_name + ", wrong_type="
 				+ wrong_type + ", wrong_type_name=" + wrong_type_name
-				+ ", total=" + total + "]";
+				+ ", total=" + total + ", similarity=" + similarity + "]";
 	}
+	
+	
 }

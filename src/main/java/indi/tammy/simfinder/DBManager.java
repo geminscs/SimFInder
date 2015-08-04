@@ -62,7 +62,7 @@ public class DBManager {
 		        q.setType(rs.getInt("type"));
 		        q.setSubmit_time(rs.getLong("submit_time"));
 		        l.add(q);
-		        System.out.println(q.toString());
+		        //System.out.println(q.toString());
 		    }
 			rs.close();
 			return l;
@@ -95,7 +95,7 @@ public class DBManager {
 		        q.setType(rs.getInt("type"));
 		        q.setSubmit_time(rs.getLong("submit_time"));
 		        l.add(q);
-		        System.out.println(q.toString());
+		        //System.out.println(q.toString());
 		    }
 			rs.close();
 			return l;
@@ -103,6 +103,20 @@ public class DBManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
+		}
+	}
+	
+	public static void insertIntoSimQuestion(int q_id, int s_id){
+		PreparedStatement psm = null;
+		String sql="insert into qb_similar_question(question_id, sim_id) values(?, ?)";
+		try {
+			psm = dbConn.prepareStatement(sql);
+			psm.setInt(1, q_id);
+			psm.setInt(2, s_id);
+			psm.executeUpdate(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }
