@@ -21,11 +21,16 @@ public class App
     	DBManager.initalize();
     	List<Question> uncheckQuestions = DBManager.findUnCheckSimQuestions();
     	for(Question x:uncheckQuestions){
-    		System.out.println("Base Question:" + x.toString());
+    		System.out.println("Base Question :" + x.toString());
     		List<Question> res = checkSimilarity(x);
+    		if(x.getContent().equals(res.get(0).getContent())){
+    			System.out.println("Exactly same id: " + res.get(0).getId());
+    			//DBManager.deleteQuestion(x.getId());
+    			continue;
+    		}
     		for(Question y:res){
-    			System.out.println("-" + y.toString());
-    			//DBManager.insertIntoSimQuestion(x.getId(), y.getId());
+    			System.out.println("-" + y.getId() + " " + y.getSimilarity());
+    			DBManager.insertIntoSimQuestion(x.getId(), y.getId());
     		}
     	}
     }
@@ -51,11 +56,11 @@ public class App
     			x.setSimilarity(calcSimilarity(q, x));
     		}
     		Collections.sort(candidates, comp);
-    		List<Question> temp = candidates.subList(0, topN-1<candidates.size()?topN-1:candidates.size());
+    		List<Question> temp = candidates.subList(0, topN<candidates.size()?topN:candidates.size());
     		res.addAll(temp);
     		if(candidates.size() < pageSize){
     			Collections.sort(res, comp);
-    			return res.subList(0, topN-1<res.size()?topN-1:res.size());
+    			return res.subList(0, topN<res.size()?topN:res.size());
     		}
     	}
     }
@@ -63,21 +68,19 @@ public class App
     public static long calcSimilarity(Question q1, Question q2){
     	String str1 = q1.getContent();
     	String str2 = q2.getContent();
-    	str1 = str1.replaceAll("<div[/]?>|<br>|<br/>", "");	
-    	str2 = str2.replaceAll("<div[/]?>|<br>|<br/>", "");
+    	str1 = str1.replaceAll("<div[/]?>|<br>|<br/>|&nbsp[;]?", "");	
+    	str2 = str2.replaceAll("<div[/]?>|<br>|<br/>&nbsp", "");
     	long sim = 0;
     	while(true){
     		String res = getLCString(str1.toCharArray(), str2.toCharArray());
     		if(res == null || res.length() <= 2){
     			break;
     		}
-    		str1 = str1.replaceFirst(res, "");
-    		str2 = str2.replaceFirst(res, "");
+    		str1 = str1.replace(res, "");
+    		str2 = str2.replace(res, "");
     		sim += res.length() * res.length();
     	}
-    	
-    	System.out.println(sim);
-    	return 1;
+    	return sim;
     }
     
     public static String getLCString(char[] str1, char[] str2) {
@@ -124,10 +127,10 @@ public class App
  
         for (j = 0; j < maxLen; j++) {
             if (max[j] > 0) {
-                System.out.println("第" + (j + 1) + "个公共子串:");
-                for (i = maxIndex[j] - max[j] + 1; i <= maxIndex[j]; i++)
-                    System.out.print(str1[i]);
-                System.out.println(" ");
+                //System.out.println("第" + (j + 1) + "个公共子串:");
+                //for (i = maxIndex[j] - max[j] + 1; i <= maxIndex[j]; i++)
+                    //System.out.print(str1[i]);
+                //System.out.println(" ");
             	return new String(str1, maxIndex[j] - max[j] + 1, max[j]);
             }
         }

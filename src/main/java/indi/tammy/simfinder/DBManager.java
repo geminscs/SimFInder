@@ -113,7 +113,20 @@ public class DBManager {
 			psm = dbConn.prepareStatement(sql);
 			psm.setInt(1, q_id);
 			psm.setInt(2, s_id);
-			psm.executeUpdate(sql);
+			psm.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static void deleteQuestion(int id){
+		PreparedStatement psm = null;
+		String sql="delete from qb_formal_qbank where id = ?";
+		try {
+			psm = dbConn.prepareStatement(sql);
+			psm.setInt(1, id);
+			psm.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
